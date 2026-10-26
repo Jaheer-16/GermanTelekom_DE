@@ -1,0 +1,20 @@
+# The main pipeline for dml_schema_manual
+
+resources:
+  pipelines:
+    dml_schema_manual_etl:
+      name: dml_schema_manual_etl
+      catalog: ${var.catalog}
+      schema: ${var.schema}
+      serverless: true
+      root_path: "../src/dml_schema_manual_etl"
+
+      libraries:
+        - glob:
+            include: ../src/dml_schema_manual_etl/transformations/**
+
+      environment:
+        dependencies:
+          # We include every dependency defined by pyproject.toml by defining an editable environment
+          # that points to the folder where pyproject.toml is deployed.
+          - --editable ${workspace.file_path}
