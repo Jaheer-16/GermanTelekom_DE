@@ -1,0 +1,14 @@
+resources:
+  jobs:
+    customer_ddl:
+      name: customer_ddl_${bundle.target}
+
+      tasks:
+        - task_key: create_customer_objects
+          notebook_task:
+            notebook_path: ../src/ddl/customer/create_customer_objects.py
+            base_parameters:
+              bronze_catalog: ${var.bronze_catalog}
+              silver_catalog: ${var.silver_catalog}
+              gold_catalog: ${var.gold_catalog}
+              schema: ${var.schema}
