@@ -1,0 +1,30 @@
+bundle:
+  name: germantelekom
+
+include:
+  - resources/*.yml
+
+variables:
+  bronze_catalog:
+    default: bronze_germantelekom
+  silver_catalog:
+    default: silver_germantelekom
+  gold_catalog:
+    default: gold_germantelekom
+  schema:
+    default: customer
+
+targets:
+  dev:
+    mode: development
+    default: true
+    workspace:
+      host: https://dbc-8a89b63e-f06a.cloud.databricks.com/>
+
+  uat:
+    workspace:
+      host: https://dbc-8a89b63e-f06a.cloud.databricks.com/>
+
+  prod:
+    workspace:
+      host: https://dbc-8a89b63e-f06a.cloud.databricks.com/>
