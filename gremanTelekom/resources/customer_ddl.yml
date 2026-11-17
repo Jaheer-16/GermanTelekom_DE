@@ -6,7 +6,7 @@ resources:
       tasks:
         - task_key: create_customer_objects
           notebook_task:
-            notebook_path: ../src/ddl/customer/create_customer_objects.py
+            notebook_path: ../src/ddl/customer/create_customer_objects.py.ipynb
             base_parameters:
               bronze_catalog: ${var.bronze_catalog}
               silver_catalog: ${var.silver_catalog}
