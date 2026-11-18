@@ -1,26 +1,35 @@
 resources:
   jobs:
-    customer_medallion_job:
-      name: "customer_medallion_pipeline_${bundle.target}"
+    customer_load_job:
+      name: "customer_load_${bundle.target}"
 
       tasks:
-        # 1. Bronze Ingestion Task
         - task_key: bronze_task
           notebook_task:
-            notebook_path: ../src/bronze_customerJob.py
+            notebook_path: ../src/customerJobs/bronze_customerJob.ipynb
             base_parameters:
               bronze_catalog: "bronze_germantelekom"
               schema: "dev_customer"
               landing_path: "/Volumes/bronze_germantelekom/dev_customer/landing/customers_day1.csv"
 
-        # 2. Silver Cleansing & SCD2 Task
         - task_key: silver_task
           depends_on:
             - task_key: bronze_task
           notebook_task:
-            notebook_path: ../src/silver_customerJob.py
+            notebook_path: ../src/customerJobs/silver_customerJob.ipynb
             base_parameters:
               bronze_catalog: "bronze_germantelekom"
               silver_catalog: "silver_germantelekom"
+              schema: "dev_customer"
+              source_file_name: "{{tasks.bronze_task.values.source_file_name}}"
+
+        - task_key: gold_task
+          depends_on:
+            - task_key: silver_task
+          notebook_task:
+            notebook_path: ../src/customerJobs/gold_customerJob.ipynb
+            base_parameters:
+              silver_catalog: "silver_germantelekom"
+              gold_catalog: "gold_germantelekom"
               schema: "dev_customer"
               source_file_name: "{{tasks.bronze_task.values.source_file_name}}"
