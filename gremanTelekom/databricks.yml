@@ -13,6 +13,11 @@ variables:
     default: gold_germantelekom
   schema:
     default: customer
+  # schema used by the bronze/silver load notebooks (their tables live in dev_customer)
+  customer_schema:
+    default: dev_customer
+  landing_path:
+    default: /Volumes/landing_germantelekom/landing/customer_data/customers_day1.csv
 
 targets:
   dev:
